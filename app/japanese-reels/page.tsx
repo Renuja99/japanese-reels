@@ -87,24 +87,24 @@ export default function JapaneseReels() {
 
   const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     setTouchEnd(0);
-    setTouchStart(e.targetTouches[0].clientY);
+    setTouchStart(e.targetTouches[0].clientX);
   };
 
   const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    setTouchEnd(e.targetTouches[0].clientY);
+    setTouchEnd(e.targetTouches[0].clientX);
   };
 
   const onTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
     
     const distance = touchStart - touchEnd;
-    const isUpSwipe = distance > minSwipeDistance;
-    const isDownSwipe = distance < -minSwipeDistance;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
 
-    if (isUpSwipe && currentIndex < reels.length - 1) {
+    if (isLeftSwipe && currentIndex < reels.length - 1) {
       setCurrentIndex(prev => prev + 1);
     }
-    if (isDownSwipe && currentIndex > 0) {
+    if (isRightSwipe && currentIndex > 0) {
       setCurrentIndex(prev => prev - 1);
     }
   };
@@ -114,6 +114,33 @@ export default function JapaneseReels() {
     if (e.deltaY > 0 && currentIndex < reels.length - 1) {
       setCurrentIndex(prev => prev + 1);
     } else if (e.deltaY < 0 && currentIndex > 0) {
+      setCurrentIndex(prev => prev - 1);
+    }
+  };
+
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft' && currentIndex > 0) {
+        setCurrentIndex(prev => prev - 1);
+      } else if (e.key === 'ArrowRight' && currentIndex < reels.length - 1) {
+        setCurrentIndex(prev => prev + 1);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentIndex, reels.length]);
+
+  // Navigation functions
+  const goToNext = () => {
+    if (currentIndex < reels.length - 1) {
+      setCurrentIndex(prev => prev + 1);
+    }
+  };
+
+  const goToPrevious = () => {
+    if (currentIndex > 0) {
       setCurrentIndex(prev => prev - 1);
     }
   };
@@ -256,12 +283,37 @@ export default function JapaneseReels() {
         {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
       </button>
 
+      {/* Navigation Arrows */}
+      {currentIndex > 0 && (
+        <button
+          onClick={goToPrevious}
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 p-4 rounded-full text-white hover:bg-black/70 transition transform hover:scale-110"
+          aria-label="Previous reel"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+      )}
+
+      {currentIndex < reels.length - 1 && (
+        <button
+          onClick={goToNext}
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 p-4 rounded-full text-white hover:bg-black/70 transition transform hover:scale-110"
+          aria-label="Next reel"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      )}
+
       {/* Reels container */}
       <div
         ref={containerRef}
-        className="h-full transition-transform duration-300 ease-out"
+        className="h-full w-full flex transition-transform duration-300 ease-out"
         style={{
-          transform: `translateY(-${currentIndex * 100}%)`,
+          transform: `translateX(-${currentIndex * 100}%)`,
         }}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
@@ -271,7 +323,7 @@ export default function JapaneseReels() {
         {reels.map((reel, idx) => (
           <div
             key={reel.id}
-            className="h-screen flex items-center justify-center p-8 relative"
+            className="h-screen w-screen flex-shrink-0 flex items-center justify-center p-8 relative"
             style={{
               background: `linear-gradient(${135 + idx * 30}deg, #667eea 0%, #764ba2 100%)`
             }}
@@ -343,7 +395,6 @@ export default function JapaneseReels() {
               </div>
 
               {/* Audio element */}
-              
               <audio
                 ref={idx === currentIndex ? audioRef : null}
                 src={reel.audio || 'no audio'}
@@ -354,7 +405,7 @@ export default function JapaneseReels() {
 
               {/* Swipe indicator */}
               <div className="text-center mt-8 text-white/60 text-sm">
-                Swipe up/down or scroll to navigate
+                Swipe left/right, use arrow keys, or click arrows to navigate
               </div>
             </div>
 

@@ -21,7 +21,7 @@ export default function JapaneseReels() {
     },
     {
       id: 2,
-      text: "毎日日本語を勉強すれば、必ず上達します",
+      text: "搭載物を航空機から他の航空機に積み替える場合、一旦上屋に搬入すると間に合わないために、航空機の間で直接積み替える搭載物（機移し搭載物と呼ぶ）として扱うときは、積み替える先の航空機 基本情報も確認する。違う航空会社の航空機の間で積み替えを行う場合は、基本情報が情報モニタ等に表示されないためコントローラに確認する",
       translation: "If you study Japanese every day, you will definitely improve.",
       audio: null
     },
@@ -334,54 +334,54 @@ export default function JapaneseReels() {
         {reels.map((reel, idx) => (
           <div
             key={reel.id}
-            className="h-screen w-screen flex-shrink-0 flex items-center justify-center p-8 relative bg-gray-100"
+            className="h-screen w-screen flex-shrink-0 flex items-start justify-center relative bg-gray-100 overflow-y-auto overflow-x-hidden"
           >
-            <div className="max-w-2xl w-full">
+            <div className="max-w-2xl w-full p-4 md:p-8 pt-24 pb-20">
               {/* English translation */}
-              <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
-                <p className="text-gray-500 text-base leading-relaxed">
+              <div className="bg-white rounded-2xl p-4 md:p-6 mb-4 md:mb-6 shadow-sm">
+                <p className="text-gray-500 text-sm md:text-base leading-relaxed">
                   {reel.translation}
                 </p>
               </div>
 
               {/* Japanese text */}
-              <div className="bg-white rounded-2xl p-8 mb-6 shadow-sm">
-                <p className="text-teal-600 text-3xl md:text-4xl font-bold leading-relaxed mb-4">
+              <div className="bg-white rounded-2xl p-6 md:p-8 mb-4 md:mb-6 shadow-sm">
+                <p className="text-teal-600 text-2xl md:text-3xl lg:text-4xl font-bold leading-relaxed break-words">
                   {reel.text}
                 </p>
               </div>
 
               {/* Romaji - placeholder for now */}
-              <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
-                <p className="text-gray-400 text-lg leading-relaxed italic">
+              <div className="bg-white rounded-2xl p-4 md:p-6 mb-4 md:mb-6 shadow-sm">
+                <p className="text-gray-400 text-base md:text-lg leading-relaxed italic">
                   Romaji transcription here...
                 </p>
               </div>
 
               {/* Audio controls */}
-              <div className="bg-white rounded-2xl p-6 mb-4 shadow-sm">
+              <div className="bg-white rounded-2xl p-4 md:p-6 mb-4 shadow-sm">
                 {reel.audio ? (
                   <div className="flex items-center justify-center gap-4">
                     <button
                       onClick={togglePlayPause}
-                      className="bg-teal-500 text-white p-4 rounded-full hover:bg-teal-600 transition-all transform hover:scale-110 disabled:opacity-50"
+                      className="bg-teal-500 text-white p-3 md:p-4 rounded-full hover:bg-teal-600 transition-all transform hover:scale-110 disabled:opacity-50"
                       disabled={uploading}
                       aria-label={isPlaying && idx === currentIndex ? 'Pause' : 'Play'}
                     >
                       {isPlaying && idx === currentIndex ? (
-                        <Pause size={32} fill="currentColor" />
+                        <Pause size={28} fill="currentColor" className="md:w-8 md:h-8" />
                       ) : (
-                        <Play size={32} fill="currentColor" />
+                        <Play size={28} fill="currentColor" className="md:w-8 md:h-8" />
                       )}
                     </button>
                     <div className="flex-1 text-gray-700 text-center">
-                      <p className="text-sm font-semibold">Audio Ready</p>
+                      <p className="text-xs md:text-sm font-semibold">Audio Ready</p>
                       <p className="text-xs text-gray-400">
                         {isPlaying && idx === currentIndex ? 'Playing...' : 'Tap play button'}
                       </p>
                     </div>
-                    <label className={`bg-gray-100 p-3 rounded-full cursor-pointer hover:bg-gray-200 transition ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                      <Upload size={24} className="text-gray-600" />
+                    <label className={`bg-gray-100 p-2 md:p-3 rounded-full cursor-pointer hover:bg-gray-200 transition ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                      <Upload size={20} className="text-gray-600 md:w-6 md:h-6" />
                       <input
                         type="file"
                         accept="audio/mp3,audio/mpeg,audio/*"
@@ -394,8 +394,8 @@ export default function JapaneseReels() {
                   </div>
                 ) : (
                   <label className={`flex flex-col items-center cursor-pointer hover:bg-gray-50 transition rounded-xl p-4 ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                    <Upload className="text-teal-500 mb-2" size={32} />
-                    <span className="text-gray-700 text-sm mb-2 font-semibold">
+                    <Upload className="text-teal-500 mb-2" size={28} />
+                    <span className="text-gray-700 text-xs md:text-sm mb-2 font-semibold">
                       {uploading ? 'Uploading...' : 'Upload Audio (MP3)'}
                     </span>
                     <input
@@ -423,13 +423,13 @@ export default function JapaneseReels() {
               />
 
               {/* Swipe indicator */}
-              <div className="text-center mt-8 text-gray-400 text-sm">
+              <div className="text-center mt-4 md:mt-8 text-gray-400 text-xs md:text-sm">
                 Swipe left/right, use arrow keys, or click arrows to navigate
               </div>
             </div>
 
             {/* Reel number */}
-            <div className="absolute bottom-8 right-8 bg-white px-4 py-2 rounded-full text-gray-700 text-sm shadow-md">
+            <div className="fixed bottom-4 md:bottom-8 right-4 md:right-8 bg-white px-3 py-1.5 md:px-4 md:py-2 rounded-full text-gray-700 text-xs md:text-sm shadow-md z-10">
               {idx + 1} / {reels.length}
             </div>
           </div>

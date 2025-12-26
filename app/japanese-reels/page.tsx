@@ -251,12 +251,12 @@ export default function JapaneseReels() {
   };
 
   return (
-    <div className="fixed inset-0 bg-black overflow-hidden">
+    <div className="fixed inset-0 bg-gray-100 overflow-hidden">
       {/* Loading indicator */}
       {loading && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/80">
-          <div className="text-white text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-gray-100/95">
+          <div className="text-gray-700 text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500 mx-auto mb-4"></div>
             <p>Loading audio files...</p>
           </div>
         </div>
@@ -267,8 +267,8 @@ export default function JapaneseReels() {
         {reels.map((_, idx) => (
           <div
             key={idx}
-            className={`h-0.5 flex-1 rounded-full transition-all ${
-              idx === currentIndex ? 'bg-white' : 'bg-gray-600'
+            className={`h-1 flex-1 rounded-full transition-all ${
+              idx === currentIndex ? 'bg-gray-800' : 'bg-gray-300'
             }`}
           />
         ))}
@@ -277,17 +277,28 @@ export default function JapaneseReels() {
       {/* Mute button */}
       <button
         onClick={toggleMute}
-        className="absolute top-16 right-4 z-20 bg-black/50 p-3 rounded-full text-white hover:bg-black/70 transition"
+        className="absolute top-16 right-4 z-20 bg-white p-3 rounded-full text-gray-700 hover:bg-gray-50 transition shadow-md"
         aria-label={isMuted ? 'Unmute' : 'Mute'}
       >
         {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
+      </button>
+
+      {/* Close button */}
+      <button
+        className="absolute top-16 right-20 z-20 bg-white p-3 rounded-full text-gray-700 hover:bg-gray-50 transition shadow-md"
+        aria-label="Close"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
       </button>
 
       {/* Navigation Arrows */}
       {currentIndex > 0 && (
         <button
           onClick={goToPrevious}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 p-4 rounded-full text-white hover:bg-black/70 transition transform hover:scale-110"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 p-4 rounded-full text-gray-700 hover:bg-white transition transform hover:scale-110 shadow-lg"
           aria-label="Previous reel"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -299,7 +310,7 @@ export default function JapaneseReels() {
       {currentIndex < reels.length - 1 && (
         <button
           onClick={goToNext}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 p-4 rounded-full text-white hover:bg-black/70 transition transform hover:scale-110"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 p-4 rounded-full text-gray-700 hover:bg-white transition transform hover:scale-110 shadow-lg"
           aria-label="Next reel"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -323,29 +334,37 @@ export default function JapaneseReels() {
         {reels.map((reel, idx) => (
           <div
             key={reel.id}
-            className="h-screen w-screen flex-shrink-0 flex items-center justify-center p-8 relative"
-            style={{
-              background: `linear-gradient(${135 + idx * 30}deg, #667eea 0%, #764ba2 100%)`
-            }}
+            className="h-screen w-screen flex-shrink-0 flex items-center justify-center p-8 relative bg-gray-100"
           >
             <div className="max-w-2xl w-full">
-              {/* Japanese text */}
-              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 mb-6">
-                <p className="text-white text-3xl md:text-4xl font-bold leading-relaxed text-center mb-6">
-                  {reel.text}
-                </p>
-                <p className="text-white/80 text-lg md:text-xl text-center">
+              {/* English translation */}
+              <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+                <p className="text-gray-500 text-base leading-relaxed">
                   {reel.translation}
                 </p>
               </div>
 
+              {/* Japanese text */}
+              <div className="bg-white rounded-2xl p-8 mb-6 shadow-sm">
+                <p className="text-teal-600 text-3xl md:text-4xl font-bold leading-relaxed mb-4">
+                  {reel.text}
+                </p>
+              </div>
+
+              {/* Romaji - placeholder for now */}
+              <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+                <p className="text-gray-400 text-lg leading-relaxed italic">
+                  Romaji transcription here...
+                </p>
+              </div>
+
               {/* Audio controls */}
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 mb-4">
+              <div className="bg-white rounded-2xl p-6 mb-4 shadow-sm">
                 {reel.audio ? (
                   <div className="flex items-center justify-center gap-4">
                     <button
                       onClick={togglePlayPause}
-                      className="bg-white text-purple-600 p-4 rounded-full hover:bg-gray-100 transition-all transform hover:scale-110 disabled:opacity-50"
+                      className="bg-teal-500 text-white p-4 rounded-full hover:bg-teal-600 transition-all transform hover:scale-110 disabled:opacity-50"
                       disabled={uploading}
                       aria-label={isPlaying && idx === currentIndex ? 'Pause' : 'Play'}
                     >
@@ -355,14 +374,14 @@ export default function JapaneseReels() {
                         <Play size={32} fill="currentColor" />
                       )}
                     </button>
-                    <div className="flex-1 text-white text-center">
+                    <div className="flex-1 text-gray-700 text-center">
                       <p className="text-sm font-semibold">Audio Ready</p>
-                      <p className="text-xs text-white/60">
+                      <p className="text-xs text-gray-400">
                         {isPlaying && idx === currentIndex ? 'Playing...' : 'Tap play button'}
                       </p>
                     </div>
-                    <label className={`bg-white/20 p-3 rounded-full cursor-pointer hover:bg-white/30 transition ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                      <Upload size={24} className="text-white" />
+                    <label className={`bg-gray-100 p-3 rounded-full cursor-pointer hover:bg-gray-200 transition ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                      <Upload size={24} className="text-gray-600" />
                       <input
                         type="file"
                         accept="audio/mp3,audio/mpeg,audio/*"
@@ -374,9 +393,9 @@ export default function JapaneseReels() {
                     </label>
                   </div>
                 ) : (
-                  <label className={`flex flex-col items-center cursor-pointer hover:bg-white/5 transition rounded-xl p-4 ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                    <Upload className="text-white mb-2" size={32} />
-                    <span className="text-white text-sm mb-2 font-semibold">
+                  <label className={`flex flex-col items-center cursor-pointer hover:bg-gray-50 transition rounded-xl p-4 ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                    <Upload className="text-teal-500 mb-2" size={32} />
+                    <span className="text-gray-700 text-sm mb-2 font-semibold">
                       {uploading ? 'Uploading...' : 'Upload Audio (MP3)'}
                     </span>
                     <input
@@ -387,7 +406,7 @@ export default function JapaneseReels() {
                       disabled={uploading}
                       aria-label="Upload audio"
                     />
-                    <span className="text-white/60 text-xs">
+                    <span className="text-gray-400 text-xs">
                       {uploading ? 'Please wait...' : 'Tap to select file'}
                     </span>
                   </label>
@@ -404,13 +423,13 @@ export default function JapaneseReels() {
               />
 
               {/* Swipe indicator */}
-              <div className="text-center mt-8 text-white/60 text-sm">
+              <div className="text-center mt-8 text-gray-400 text-sm">
                 Swipe left/right, use arrow keys, or click arrows to navigate
               </div>
             </div>
 
             {/* Reel number */}
-            <div className="absolute bottom-8 right-8 bg-black/50 px-4 py-2 rounded-full text-white text-sm">
+            <div className="absolute bottom-8 right-8 bg-white px-4 py-2 rounded-full text-gray-700 text-sm shadow-md">
               {idx + 1} / {reels.length}
             </div>
           </div>

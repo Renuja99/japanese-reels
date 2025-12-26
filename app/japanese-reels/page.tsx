@@ -22,7 +22,7 @@ export default function JapaneseReels() {
     {
       id: 2,
       text: "搭載物を航空機から他の航空機に積み替える場合、一旦上屋に搬入すると間に合わないために、航空機の間で直接積み替える搭載物（機移し搭載物と呼ぶ）として扱うときは、積み替える先の航空機 基本情報も確認する。違う航空会社の航空機の間で積み替えを行う場合は、基本情報が情報モニタ等に表示されないためコントローラに確認する",
-      translation: "If you study Japanese every day, you will definitely improve.",
+      translation: "The text outlines the procedure for Direct Aircraft-to-Aircraft Cargo Transfers (referred to as Kiu-tsu-shi or 'plane-to-plane transfer cargo').Key Points:Why Direct Transfer? Sometimes there isn't enough time to move cargo into a warehouse (Uwaya) before loading it onto the next flight. In these cases, cargo is moved directly between planes.Verification: When performing a direct transfer, you must verify the basic information of the receiving aircraft.Inter-Airline Transfers: If you are transferring cargo between planes belonging to different airlines, the necessary flight information might not appear on your standard information monitors.Action Required: In the event that info isn't on the monitor (especially during inter-airline transfers), you must contact a controller to confirm the details.",
       audio: null
     },
     {
